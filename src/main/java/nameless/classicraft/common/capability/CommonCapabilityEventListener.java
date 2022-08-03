@@ -1,0 +1,48 @@
+package nameless.classicraft.common.capability;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import nameless.classicraft.Classicraft;
+import nameless.classicraft.common.capability.rot.EmptyRot;
+import nameless.classicraft.common.capability.rot.NormalRot;
+import nameless.classicraft.common.capability.rot.RotCapabilityProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+/**
+ * @author DustW
+ */
+@Mod.EventBusSubscriber
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class CommonCapabilityEventListener {
+
+    @SubscribeEvent
+    public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
+        if (event.getObject().is(Items.ROTTEN_FLESH)) {
+            attach(event, "rot", new RotCapabilityProvider(LazyOptional.of(EmptyRot::new)));
+        }
+        else if (NormalRot.canUse(event.getObject())) {
+            attach(event, "rot", new RotCapabilityProvider(LazyOptional.of(() -> new NormalRot(event.getObject()))));
+        }
+    }
+
+    static void attach(AttachCapabilitiesEvent<?> event, String name, ICapabilityProvider provider) {
+        event.addCapability(new ResourceLocation(Classicraft.MOD_ID, name), provider);
+    }
+
+    @SubscribeEvent
+    public static void onTooltip(ItemTooltipEvent event) {
+        event.getItemStack().getCapability(ModCapabilities.ROT).ifPresent(rot -> {
+            if (rot.isHasExMsg()) {
+                event.getToolTip().addAll(rot.getMsg());
+            }
+        });
+    }
+}
