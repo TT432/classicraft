@@ -1,5 +1,6 @@
 package nameless.classicraft.common.capability.rot;
 
+import nameless.classicraft.common.capability.ModCapabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.FloatTag;
 import net.minecraftforge.common.capabilities.Capability;
@@ -25,7 +26,7 @@ public class RotCapabilityProvider extends CapabilityProvider<RotCapabilityProvi
     @NotNull
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return this.cap.cast();
+        return ModCapabilities.ROT.orEmpty(cap, this.cap.cast());
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import nameless.classicraft.api.CCItemStack;
 import nameless.classicraft.common.capability.ModCapabilities;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -45,6 +46,8 @@ public abstract class MixinItemStack implements CCItemStack {
     @Shadow public abstract void grow(int pIncrement);
 
     @Shadow public abstract void shrink(int pDecrement);
+
+    @Shadow public abstract Component getHoverName();
 
     @Inject(method = "overrideOtherStackedOnMe", cancellable = true, at = @At("HEAD"))
     private void overrideOtherStackedOnMeCC(ItemStack other, Slot pSlot, ClickAction pAction,
@@ -155,5 +158,12 @@ public abstract class MixinItemStack implements CCItemStack {
                 cir.setReturnValue((ItemStack) (Object) this);
             }
         });
+    }
+
+    @Inject(method = "hasCustomHoverName", cancellable = true, at = @At("HEAD"))
+    private void hasCustomHoverNameCC(CallbackInfoReturnable<Boolean> cir) {
+        if (getHoverName().getString().equals("腐烂食物")) {
+            cir.setReturnValue(false);
+        }
     }
 }

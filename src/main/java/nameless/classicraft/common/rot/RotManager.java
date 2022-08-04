@@ -1,9 +1,13 @@
 package nameless.classicraft.common.rot;
 
+import lombok.Getter;
+import lombok.Setter;
 import nameless.classicraft.common.capability.ModCapabilities;
+import nameless.classicraft.common.capability.rot.AbstractRot;
 import nameless.classicraft.common.capability.rot.EmptyRot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +33,10 @@ import java.util.function.Supplier;
  */
 public enum RotManager {
     INSTANCE;
+
+    @Getter
+    @Setter
+    float baseSpeed = 1;
 
     Queue<Runnable> buffer = new ArrayDeque<>();
 
@@ -119,12 +127,21 @@ public enum RotManager {
                         rot.getHolder().setCurrent(Math.max(0, rot.getHolder().getCurrent() - finalSpeed));
 
                         if (rot.getHolder().getCurrent() <= 0) {
-                            info.action.set(handler, finalI, switch (rot.getType()) {
-                                case MEET -> new ItemStack(Items.ROTTEN_FLESH, inSlot.getCount());
-                                case PLANT -> ComposterBlock.COMPOSTABLES.containsKey(inSlot.getItem()) ?
-                                        new ItemStack(Items.BONE_MEAL, inSlot.getCount()) : ItemStack.EMPTY;
-                                default -> ItemStack.EMPTY;
-                            });
+                            ItemStack rotItem = ItemStack.EMPTY;
+
+                            if (rot.getType() == AbstractRot.FoodType.MEET) {
+                                rotItem = new ItemStack(Items.ROTTEN_FLESH, inSlot.getCount());
+                            }
+                            else if (rot.getType() == AbstractRot.FoodType.PLANT &&
+                                    ComposterBlock.COMPOSTABLES.containsKey(inSlot.getItem())) {
+                                rotItem = new ItemStack(Items.BONE_MEAL, inSlot.getCount());
+                            }
+
+                            if (!rotItem.isEmpty()) {
+                                rotItem.setHoverName(new TextComponent("腐烂食物"));
+                            }
+
+                            info.action.set(handler, finalI, rotItem);
                         }
                     });
                 }
@@ -150,7 +167,7 @@ public enum RotManager {
     }
 
     float baseSpeed() {
-        return 100;
+        return baseSpeed;
     }
 
     float dimCoefficient(Level level) {
