@@ -5,9 +5,13 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "classicraft.refmap.json",
   "mixins": [
-    "MixinBlockStateBase",
     "MixinBlockEntity",
-    "MixinItemStack"
+    "MixinBlockItem",
+    "MixinBlockStateBase",
+    "MixinCakeBlock",
+    "MixinCropBlock",
+    "MixinItemStack",
+    "MixinPumpkinBlock"
   ],
   "client": [
   ],

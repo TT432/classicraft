@@ -12,6 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
@@ -103,11 +104,7 @@ public enum RotManager {
                 continue;
             }
 
-            float finalSpeed = baseSpeed() *
-                    dimCoefficient(info.level.get()) *
-                    biomeCoefficient(info.level.get(), info.pos.get()) *
-                    containerCoefficient(info.block.get()) *
-                    drop(info.entity);
+            float finalSpeed = getFinalSpeed(info.level.get(), info.pos.get(), info.block.get(), info.entity);
 
             for (IItemHandler handler : info.handlers) {
                 for (int i = 0; i < handler.getSlots(); i++) {
@@ -119,12 +116,13 @@ public enum RotManager {
                             return;
                         }
 
-                        rot.setRotValue(Math.max(0, rot.getRotValue() - finalSpeed));
+                        rot.getHolder().setCurrent(Math.max(0, rot.getHolder().getCurrent() - finalSpeed));
 
-                        if (rot.getRotValue() <= 0) {
+                        if (rot.getHolder().getCurrent() <= 0) {
                             info.action.set(handler, finalI, switch (rot.getType()) {
                                 case MEET -> new ItemStack(Items.ROTTEN_FLESH, inSlot.getCount());
-                                case PLANT -> new ItemStack(Items.BONE_MEAL, inSlot.getCount());
+                                case PLANT -> ComposterBlock.COMPOSTABLES.containsKey(inSlot.getItem()) ?
+                                        new ItemStack(Items.BONE_MEAL, inSlot.getCount()) : ItemStack.EMPTY;
                                 default -> ItemStack.EMPTY;
                             });
                         }
@@ -138,8 +136,21 @@ public enum RotManager {
         }
     }
 
+    /** for BlockEntity */
+    public float getFinalSpeed(Level level, BlockPos pos, BlockState state) {
+        return getFinalSpeed(level, new Vec3(pos.getX(), pos.getY(), pos.getZ()), state, null);
+    }
+
+    public float getFinalSpeed(Level level, Vec3 pos, BlockState state, ItemEntity entity) {
+        return baseSpeed() *
+                dimCoefficient(level) *
+                biomeCoefficient(level, pos) *
+                containerCoefficient(state) *
+                drop(entity);
+    }
+
     float baseSpeed() {
-        return 1;
+        return 100;
     }
 
     float dimCoefficient(Level level) {

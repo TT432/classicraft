@@ -1,5 +1,6 @@
 package nameless.classicraft.common.capability.rot;
 
+import nameless.classicraft.common.rot.RotHolder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
@@ -90,7 +91,7 @@ public class NormalRot extends AbstractRot {
     FoodType type;
 
     public NormalRot(ItemStack food) {
-        super(getSecond(food.getItem()), getSecond(food.getItem()), true, rot -> {
+        super(new RotHolder(getSecond(food.getItem()), getSecond(food.getItem())), true, rot -> {
             var prefix = new TextComponent(" 当前新鲜度");
 
             return List.of(new TextComponent("新鲜度:"), switch (rot.getLevel()) {
@@ -118,25 +119,17 @@ public class NormalRot extends AbstractRot {
     }
 
     @Override
-    public RotLevel getLevel() {
-        float percent = getRotPercent();
-
-        if (percent >= .75) {
-            return RotLevel.FRESH;
-        }
-        else if (percent >= .51) {
-            return RotLevel.STALE;
-        }
-        else if (percent >= .26) {
-            return RotLevel.SPOILED;
-        }
-        else {
-            return RotLevel.ROT;
-        }
+    public FoodType getType() {
+        return type;
     }
 
     @Override
-    public FoodType getType() {
-        return type;
+    public boolean equals(Object o) {
+        return o == this || o instanceof NormalRot rot && rot.food.equals(this.food);
+    }
+
+    @Override
+    public int hashCode() {
+        return food.hashCode();
     }
 }

@@ -3,6 +3,7 @@ package nameless.classicraft.common.capability.rot;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import nameless.classicraft.common.rot.RotHolder;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,14 +16,9 @@ import java.util.function.Function;
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractRot {
-    private final float maxRotValue;
-    private float rotValue;
+    private final RotHolder holder;
     private boolean hasExMsg;
     private Function<AbstractRot, List<Component>> exMsg;
-
-    public float getRotPercent() {
-        return rotValue / maxRotValue;
-    }
 
     @NotNull
     public List<Component> getMsg() {
@@ -31,16 +27,19 @@ public abstract class AbstractRot {
         return List.of();
     }
 
-    public abstract RotLevel getLevel();
-
-    public enum RotLevel {
-        FRESH,
-        STALE,
-        SPOILED,
-        ROT
+    public RotHolder.RotLevel getLevel() {
+        return getHolder().getLevel();
     }
 
     public abstract FoodType getType();
+
+    public float getRotValue() {
+        return holder.getCurrent();
+    }
+
+    public void setRotValue(float v) {
+        holder.setCurrent(v);
+    }
 
     public enum FoodType {
         MEET,

@@ -1,5 +1,7 @@
 package nameless.classicraft.common.capability.rot;
 
+import nameless.classicraft.common.rot.RotHolder;
+
 import java.util.List;
 
 /**
@@ -7,12 +9,7 @@ import java.util.List;
  */
 public class EmptyRot extends AbstractRot {
     public EmptyRot() {
-        super(0, 0, false, r -> List.of());
-    }
-
-    @Override
-    public RotLevel getLevel() {
-        return RotLevel.ROT;
+        super(new RotHolder(0, 1), false, r -> List.of());
     }
 
     @Override
