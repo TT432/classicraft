@@ -3,10 +3,12 @@ package nameless.classicraft.mixin;
 import com.mojang.datafixers.util.Pair;
 import nameless.classicraft.api.CCItemStack;
 import nameless.classicraft.common.capability.ModCapabilities;
+import nameless.classicraft.common.rot.RotHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -165,5 +167,31 @@ public abstract class MixinItemStack implements CCItemStack {
         if (getHoverName().getString().equals("腐烂食物")) {
             cir.setReturnValue(false);
         }
+    }
+
+    @Inject(method = "getBarWidth", cancellable = true, at = @At("HEAD"))
+    private void getBarWidthCC(CallbackInfoReturnable<Integer> cir) {
+        getCapability(ModCapabilities.ROT).ifPresent(rot -> {
+            RotHolder holder = rot.getHolder();
+            cir.setReturnValue(Math.round(holder.getCurrent() * 13.0F / holder.getMax()));
+        });
+    }
+
+    @Inject(method = "getBarColor", cancellable = true, at = @At("HEAD"))
+    private void getBarColorCC(CallbackInfoReturnable<Integer> cir) {
+        getCapability(ModCapabilities.ROT).ifPresent(rot -> {
+            RotHolder holder = rot.getHolder();
+            float f = Math.max(0.0F, holder.getCurrent() / holder.getMax());
+            cir.setReturnValue(Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F));
+        });
+    }
+
+    @Inject(method = "isBarVisible", cancellable = true, at = @At("HEAD"))
+    private void isBarVisibleCC(CallbackInfoReturnable<Boolean> cir) {
+        getCapability(ModCapabilities.ROT).ifPresent(rot -> {
+            if (rot.getRotValue() < rot.getHolder().getMax()) {
+                cir.setReturnValue(true);
+            }
+        });
     }
 }
