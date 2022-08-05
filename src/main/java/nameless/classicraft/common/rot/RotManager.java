@@ -3,20 +3,17 @@ package nameless.classicraft.common.rot;
 import lombok.Getter;
 import lombok.Setter;
 import nameless.classicraft.common.capability.ModCapabilities;
-import nameless.classicraft.common.capability.rot.AbstractRot;
 import nameless.classicraft.common.capability.rot.EmptyRot;
+import nameless.classicraft.common.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
@@ -127,21 +124,7 @@ public enum RotManager {
                         rot.getHolder().setCurrent(Math.max(0, rot.getHolder().getCurrent() - finalSpeed));
 
                         if (rot.getHolder().getCurrent() <= 0) {
-                            ItemStack rotItem = ItemStack.EMPTY;
-
-                            if (rot.getType() == AbstractRot.FoodType.MEET) {
-                                rotItem = new ItemStack(Items.ROTTEN_FLESH, inSlot.getCount());
-                            }
-                            else if (rot.getType() == AbstractRot.FoodType.PLANT &&
-                                    ComposterBlock.COMPOSTABLES.containsKey(inSlot.getItem())) {
-                                rotItem = new ItemStack(Items.BONE_MEAL, inSlot.getCount());
-                            }
-
-                            if (!rotItem.isEmpty()) {
-                                rotItem.setHoverName(new TextComponent("腐烂食物"));
-                            }
-
-                            info.action.set(handler, finalI, rotItem);
+                            info.action.set(handler, finalI, new ItemStack(ModItems.ROTTEN_FOOD.get(), inSlot.getCount()));
                         }
                     });
                 }
