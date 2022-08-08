@@ -6,9 +6,9 @@ import nameless.classicraft.Classicraft;
 import nameless.classicraft.common.capability.rot.EmptyRot;
 import nameless.classicraft.common.capability.rot.NormalRot;
 import nameless.classicraft.common.capability.rot.RotCapabilityProvider;
+import nameless.classicraft.common.item.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -25,7 +25,7 @@ public class CommonCapabilityEventListener {
 
     @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-        if (event.getObject().is(Items.ROTTEN_FLESH)) {
+        if (event.getObject().is(ModItems.ROTTEN_FOOD.get())) {
             attach(event, "rot", new RotCapabilityProvider(LazyOptional.of(EmptyRot::new)));
         }
         else if (NormalRot.canUse(event.getObject())) {

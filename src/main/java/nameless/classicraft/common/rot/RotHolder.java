@@ -12,12 +12,12 @@ public class RotHolder {
     final float max;
     float current;
 
-    public float getRotPercent() {
+    public float percent() {
         return current / max;
     }
 
     public RotLevel getLevel() {
-        float percent = getRotPercent();
+        float percent = percent();
 
         if (percent >= .75) {
             return RotLevel.FRESH;

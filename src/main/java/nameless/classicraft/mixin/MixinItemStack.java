@@ -3,12 +3,11 @@ package nameless.classicraft.mixin;
 import com.mojang.datafixers.util.Pair;
 import nameless.classicraft.api.CCItemStack;
 import nameless.classicraft.common.capability.ModCapabilities;
-import nameless.classicraft.common.rot.RotHolder;
+import nameless.classicraft.common.item.ModItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -95,7 +94,7 @@ public abstract class MixinItemStack implements CCItemStack {
                     int foodLevelModifier;
                     float saturationLevelModifier;
 
-                    if (getItem() == Items.ROTTEN_FLESH) {
+                    if (getItem() == Items.ROTTEN_FLESH || getItem() == ModItems.ROTTEN_FOOD.get()) {
                         entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60 * 20, 2));
                         entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60 * 20, 2));
                         entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60 * 20, 1));
@@ -106,6 +105,10 @@ public abstract class MixinItemStack implements CCItemStack {
                     }
                     else {
                         switch (rot.getLevel()) {
+                            case FRESH -> {
+                                foodLevelModifier = properties.getNutrition();
+                                saturationLevelModifier = properties.getSaturationModifier();
+                            }
                             case STALE -> {
                                 entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 15 * 20));
 
@@ -162,35 +165,12 @@ public abstract class MixinItemStack implements CCItemStack {
         });
     }
 
-    @Inject(method = "hasCustomHoverName", cancellable = true, at = @At("HEAD"))
-    private void hasCustomHoverNameCC(CallbackInfoReturnable<Boolean> cir) {
-        if (getHoverName().getString().equals("腐烂食物")) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(method = "getBarWidth", cancellable = true, at = @At("HEAD"))
-    private void getBarWidthCC(CallbackInfoReturnable<Integer> cir) {
+    @Inject(method = "getHoverName", at = @At("RETURN"), cancellable = true)
+    private void getHoverNameCC(CallbackInfoReturnable<Component> cir) {
         getCapability(ModCapabilities.ROT).ifPresent(rot -> {
-            RotHolder holder = rot.getHolder();
-            cir.setReturnValue(Math.round(holder.getCurrent() * 13.0F / holder.getMax()));
-        });
-    }
-
-    @Inject(method = "getBarColor", cancellable = true, at = @At("HEAD"))
-    private void getBarColorCC(CallbackInfoReturnable<Integer> cir) {
-        getCapability(ModCapabilities.ROT).ifPresent(rot -> {
-            RotHolder holder = rot.getHolder();
-            float f = Math.max(0.0F, holder.getCurrent() / holder.getMax());
-            cir.setReturnValue(Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F));
-        });
-    }
-
-    @Inject(method = "isBarVisible", cancellable = true, at = @At("HEAD"))
-    private void isBarVisibleCC(CallbackInfoReturnable<Boolean> cir) {
-        getCapability(ModCapabilities.ROT).ifPresent(rot -> {
-            if (rot.getRotValue() < rot.getHolder().getMax()) {
-                cir.setReturnValue(true);
+            if (rot.getHolder().getMax() > 0) {
+                Component origin = cir.getReturnValue();
+                cir.setReturnValue(rot.getLevelName().append("的").withStyle(rot.getLevelNameColor()).append(origin));
             }
         });
     }

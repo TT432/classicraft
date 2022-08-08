@@ -3,10 +3,13 @@ package nameless.classicraft.common.item;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import nameless.classicraft.Classicraft;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Function;
 
 /**
  * @author DustW
@@ -15,10 +18,14 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Classicraft.MOD_ID);
 
-    public static final RegistryObject<Item> ROTTEN_FOOD = normal("rotten_food");
+    public static final RegistryObject<Item> ROTTEN_FOOD = normal("rotten_food", p -> p.food(new FoodProperties.Builder().build()));
 
     private static RegistryObject<Item> normal(String name) {
-        return REGISTER.register(name, () -> new Item(base()));
+        return normal(name, p -> p);
+    }
+
+    private static RegistryObject<Item> normal(String name, Function<Item.Properties, Item.Properties> func) {
+        return REGISTER.register(name, () -> new Item(func.apply(base())));
     }
 
     private static Item.Properties base() {

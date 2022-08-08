@@ -155,7 +155,7 @@ public enum RotManager {
 
     float dimCoefficient(Level level) {
         if (level == null) {
-            return 1;
+            return .5F;
         }
 
         if (level.dimension() == Level.NETHER) {
@@ -168,6 +168,13 @@ public enum RotManager {
     float biomeCoefficient(Level level, Vec3 pos) {
         if (level == null || pos == null) {
             return 1;
+        }
+
+        if (level.dimension() == Level.END) {
+            return .7F;
+        }
+        else if (level.dimension() == Level.NETHER) {
+            return 1.25F;
         }
 
         Biome biome = level.getBiome(new BlockPos(pos)).value();

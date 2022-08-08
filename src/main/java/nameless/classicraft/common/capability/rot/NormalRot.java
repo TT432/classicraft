@@ -1,7 +1,6 @@
 package nameless.classicraft.common.capability.rot;
 
 import nameless.classicraft.common.rot.RotHolder;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,8 +16,8 @@ import java.util.Map;
 public class NormalRot extends AbstractRot {
 
     /** 天（秒） */
-    static int d(int t) {
-        return t * 24000 / 20;
+    static int d(double t) {
+        return (int) (t * 24000 / 20);
     }
 
     /** 时（秒） */
@@ -74,7 +73,8 @@ public class NormalRot extends AbstractRot {
             Items.ENCHANTED_GOLDEN_APPLE, d(648),
             Items.MUSHROOM_STEW, d(3),
             Items.BEETROOT_SOUP, d(5),
-            Items.SUSPICIOUS_STEW, d(3)
+            Items.SUSPICIOUS_STEW, d(3),
+            Items.ROTTEN_FLESH, d(0.5)
     );
 
     public static int getSecond(Item item) {
@@ -92,14 +92,8 @@ public class NormalRot extends AbstractRot {
 
     public NormalRot(ItemStack food) {
         super(new RotHolder(getSecond(food.getItem()), getSecond(food.getItem())), true, rot -> {
-            var prefix = new TextComponent(" 当前新鲜度");
-
-            return List.of(new TextComponent("新鲜度:"), switch (rot.getLevel()) {
-                case FRESH -> prefix.append(new TextComponent("新鲜").withStyle(ChatFormatting.GREEN));
-                case STALE -> prefix.append(new TextComponent("陈旧").withStyle(ChatFormatting.YELLOW));
-                case SPOILED -> prefix.append(new TextComponent("变质").withStyle(ChatFormatting.GOLD));
-                case ROT -> prefix.append(new TextComponent("腐坏").withStyle(ChatFormatting.RED));
-            });
+            return List.of(new TextComponent("新鲜度:"),
+                    new TextComponent("%.1f/%.1f".formatted(rot.getHolder().getCurrent(), rot.getHolder().getMax())));
         });
 
         this.food = food;
