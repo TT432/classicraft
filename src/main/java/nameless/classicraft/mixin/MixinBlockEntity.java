@@ -1,5 +1,6 @@
 package nameless.classicraft.mixin;
 
+import nameless.classicraft.api.RotReduceListener;
 import nameless.classicraft.common.rot.RotManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
@@ -27,12 +28,23 @@ public abstract class MixinBlockEntity {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void initCC(BlockEntityType pType, BlockPos pWorldPosition, BlockState pBlockState, CallbackInfo ci) {
         if (this instanceof Container c) {
-            RotManager.INSTANCE.addInfoByPos(pWorldPosition, RotManager.Info.blockEntity(
-                    List.of(new InvWrapper(c)),
-                    this::getLevel,
-                    pWorldPosition,
-                    () -> pBlockState
-            ));
+            InvWrapper wrapper = new InvWrapper(c);
+
+            if (this instanceof RotReduceListener rrl)
+                RotManager.INSTANCE.addInfoByPos(pWorldPosition, RotManager.Info.blockEntity(
+                        List.of(wrapper),
+                        this::getLevel,
+                        pWorldPosition,
+                        () -> pBlockState,
+                        rrl::onRotReduce
+                ));
+            else
+                RotManager.INSTANCE.addInfoByPos(pWorldPosition, RotManager.Info.blockEntity(
+                        List.of(wrapper),
+                        this::getLevel,
+                        pWorldPosition,
+                        () -> pBlockState
+                ));
         }
     }
 }

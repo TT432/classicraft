@@ -1,7 +1,9 @@
 package nameless.classicraft;
 
+import nameless.classicraft.common.block.ModBlocks;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
 import nameless.classicraft.common.item.ModItems;
+import nameless.classicraft.common.menu.ModMenuTypes;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +24,10 @@ public class Classicraft {
 
     public Classicraft() {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
+
         ModBlockEntities.REGISTER.register(bus);
         ModItems.REGISTER.register(bus);
+        ModMenuTypes.REGISTER.register(bus);
+        ModBlocks.REGISTER.register(bus);
     }
 }

@@ -3,6 +3,7 @@ package nameless.classicraft.common.block.entity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import nameless.classicraft.Classicraft;
+import nameless.classicraft.common.block.ModBlocks;
 import nameless.classicraft.common.block.entity.crop.CarrotBlockEntity;
 import nameless.classicraft.common.block.entity.crop.PotatoBlockEntity;
 import nameless.classicraft.common.block.entity.crop.WheatBlockEntity;
@@ -34,4 +35,7 @@ public class ModBlockEntities {
 
     public static final RegistryObject<BlockEntityType<PotatoBlockEntity>> POTATO = REGISTER.register("potato",
             () -> BlockEntityType.Builder.of(PotatoBlockEntity::new, Blocks.POTATOES).build(null));
+
+    public static final RegistryObject<BlockEntityType<FridgeBlockEntity>> FRIDGE = REGISTER.register("fridge",
+            () -> BlockEntityType.Builder.of(FridgeBlockEntity::new, ModBlocks.FRIDGE.get()).build(null));
 }

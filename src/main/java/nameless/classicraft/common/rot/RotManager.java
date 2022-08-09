@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 /**
@@ -76,28 +77,40 @@ public enum RotManager {
                        @Nullable ItemEntity entity,
                        @NotNull Supplier<BlockState> block,
                        SetAction action,
-                       boolean needLevelNotNull) {
+                       boolean needLevelNotNull,
+                       BiFunction<ItemStack, Float, Float> onRotReduce) {
+        static BiFunction<ItemStack, Float, Float> UNCHANGED =  (s, r) -> r;
+
         public static Info blockEntity(List<IItemHandler> handlers,
                                 Supplier<Level> level,
                                 BlockPos pos,
                                 Supplier<BlockState> block) {
             return new Info(handlers, level, () -> new Vec3(pos.getX(), pos.getY(), pos.getZ()),
-                    null, block, SetAction.IMPL, true);
+                    null, block, SetAction.IMPL, true, UNCHANGED);
+        }
+
+        public static Info blockEntity(List<IItemHandler> handlers,
+                                       Supplier<Level> level,
+                                       BlockPos pos,
+                                       Supplier<BlockState> block,
+                                       BiFunction<ItemStack, Float, Float> onRotReduce) {
+            return new Info(handlers, level, () -> new Vec3(pos.getX(), pos.getY(), pos.getZ()),
+                    null, block, SetAction.IMPL, true, onRotReduce);
         }
 
         public static Info itemEntity(ItemEntity entity) {
             return new Info(List.of(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, entity.getItem()))),
-                    entity::getLevel, entity::position, entity, () -> null, (h, n, s) -> entity.setItem(s), true);
+                    entity::getLevel, entity::position, entity, () -> null, (h, n, s) -> entity.setItem(s), true, UNCHANGED);
         }
 
         public static Info playerInv(Container container, Player player) {
             return new Info(List.of(new InvWrapper(container)), player::getLevel, player::position,
-                    null, () -> null, SetAction.IMPL, true);
+                    null, () -> null, SetAction.IMPL, true, UNCHANGED);
         }
 
         public static Info enderChest(Container container) {
             return new Info(List.of(new InvWrapper(container)), () -> null, () -> null, null,
-                    Blocks.ENDER_CHEST::defaultBlockState, SetAction.IMPL, false);
+                    Blocks.ENDER_CHEST::defaultBlockState, SetAction.IMPL, false, UNCHANGED);
         }
     }
 
@@ -121,10 +134,15 @@ public enum RotManager {
                             return;
                         }
 
-                        rot.getHolder().setCurrent(Math.max(0, rot.getHolder().getCurrent() - finalSpeed));
+                        Float finalValue = info.onRotReduce.apply(inSlot, finalSpeed);
 
-                        if (rot.getHolder().getCurrent() <= 0) {
-                            info.action.set(handler, finalI, new ItemStack(ModItems.ROTTEN_FOOD.get(), inSlot.getCount()));
+                        if (finalValue > 0) {
+                            float newValue = rot.getHolder().getCurrent() - finalValue;
+                            rot.getHolder().setCurrent(Math.max(0, newValue));
+
+                            if (rot.getHolder().getCurrent() <= 0) {
+                                info.action.set(handler, finalI, new ItemStack(ModItems.ROTTEN_FOOD.get(), inSlot.getCount()));
+                            }
                         }
                     });
                 }

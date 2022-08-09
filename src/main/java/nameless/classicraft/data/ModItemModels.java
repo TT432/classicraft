@@ -1,6 +1,7 @@
 package nameless.classicraft.data;
 
 import nameless.classicraft.Classicraft;
+import nameless.classicraft.common.block.ModBlocks;
 import nameless.classicraft.common.item.ModItems;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +29,7 @@ public class ModItemModels extends ItemModelProvider {
     protected void registerModels() {
         //base();
         simpleTexture(ModItems.ROTTEN_FOOD);
+        block(ModBlocks.FRIDGE);
     }
 
     void block(RegistryObject<? extends Block> block) {
