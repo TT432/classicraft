@@ -1,4 +1,4 @@
-package nameless.classicraft.api;
+package nameless.classicraft.api.common.rot;
 
 import net.minecraft.world.item.ItemStack;
 

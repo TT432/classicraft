@@ -22,6 +22,7 @@ public abstract class AbstractRot {
     private final RotHolder holder;
     private boolean hasExMsg;
     private Function<AbstractRot, List<Component>> exMsg;
+    private float finalSpeed;
 
     @NotNull
     public List<Component> getMsg() {
@@ -52,20 +53,11 @@ public abstract class AbstractRot {
         };
     }
 
-    public abstract FoodType getType();
-
     public float getRotValue() {
         return holder.getCurrent();
     }
 
     public void setRotValue(float v) {
         holder.setCurrent(v);
-    }
-
-    public enum FoodType {
-        MEET,
-        PLANT,
-        OTHER,
-        NONE
     }
 }

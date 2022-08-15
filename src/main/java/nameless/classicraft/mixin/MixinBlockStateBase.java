@@ -1,6 +1,6 @@
 package nameless.classicraft.mixin;
 
-import nameless.classicraft.api.RotBlock;
+import nameless.classicraft.api.common.block.RotBlock;
 import nameless.classicraft.common.block.entity.RotAbleBlockEntity;
 import nameless.classicraft.common.capability.ModCapabilities;
 import nameless.classicraft.common.rot.RotManager;

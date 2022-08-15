@@ -1,9 +1,9 @@
 package nameless.classicraft.mixin;
 
-import nameless.classicraft.api.RotBlock;
-import nameless.classicraft.api.TickAble;
+import nameless.classicraft.api.common.block.RotBlock;
+import nameless.classicraft.api.common.block.entity.TickAble;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
-import nameless.classicraft.common.block.entity.PumpkinBlockEntity;
+import nameless.classicraft.common.block.entity.attach.PumpkinBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;

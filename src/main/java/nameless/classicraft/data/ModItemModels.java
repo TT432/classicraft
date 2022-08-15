@@ -27,9 +27,12 @@ public class ModItemModels extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        //base();
         simpleTexture(ModItems.ROTTEN_FOOD);
+        simpleTexture(ModItems.COOKED_EGG);
+        simpleTexture(ModItems.NETHER_MUSHROOM_STEW);
+        simpleTexture(ModItems.CACTUS_FRUIT);
         block(ModBlocks.FRIDGE);
+        block(ModBlocks.GLISTERING_MELON);
     }
 
     void block(RegistryObject<? extends Block> block) {

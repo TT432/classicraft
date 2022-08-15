@@ -1,4 +1,4 @@
-package nameless.classicraft.api;
+package nameless.classicraft.api.common.block;
 
 import nameless.classicraft.common.block.entity.RotAbleBlockEntity;
 import net.minecraft.core.BlockPos;

@@ -1,4 +1,4 @@
-package nameless.classicraft.api;
+package nameless.classicraft.api.common.block.entity;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;

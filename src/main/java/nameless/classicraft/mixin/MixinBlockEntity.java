@@ -1,6 +1,6 @@
 package nameless.classicraft.mixin;
 
-import nameless.classicraft.api.RotReduceListener;
+import nameless.classicraft.api.common.rot.RotReduceListener;
 import nameless.classicraft.common.rot.RotManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;

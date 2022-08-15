@@ -4,9 +4,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import nameless.classicraft.Classicraft;
 import nameless.classicraft.common.block.ModBlocks;
-import nameless.classicraft.common.block.entity.crop.CarrotBlockEntity;
-import nameless.classicraft.common.block.entity.crop.PotatoBlockEntity;
-import nameless.classicraft.common.block.entity.crop.WheatBlockEntity;
+import nameless.classicraft.common.block.entity.attach.*;
+import nameless.classicraft.common.block.entity.attach.crop.CarrotBlockEntity;
+import nameless.classicraft.common.block.entity.attach.crop.PotatoBlockEntity;
+import nameless.classicraft.common.block.entity.attach.crop.WheatBlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,6 +21,13 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Classicraft.MOD_ID);
+
+    // attach
+
+    public static final RegistryObject<BlockEntityType<BushBlockEntity>> BUSH = REGISTER.register("bush",
+            () -> BlockEntityType.Builder.of(BushBlockEntity::new,
+                    Blocks.BROWN_MUSHROOM, Blocks.RED_MUSHROOM_BLOCK,
+                    Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS).build(null));
 
     public static final RegistryObject<BlockEntityType<CakeBlockEntity>> CAKE = REGISTER.register("cake",
             () -> BlockEntityType.Builder.of(CakeBlockEntity::new, Blocks.CAKE).build(null));
@@ -36,6 +44,22 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<PotatoBlockEntity>> POTATO = REGISTER.register("potato",
             () -> BlockEntityType.Builder.of(PotatoBlockEntity::new, Blocks.POTATOES).build(null));
 
+    public static final RegistryObject<BlockEntityType<SugarCaneBlockEntity>> SUGAR_CANE = REGISTER.register("sugar_cane",
+            () -> BlockEntityType.Builder.of(SugarCaneBlockEntity::new, Blocks.SUGAR_CANE).build(null));
+
+    public static final RegistryObject<BlockEntityType<TurtleEggBlockEntity>> TURTLE_EGG = REGISTER.register("turtle_egg",
+            () -> BlockEntityType.Builder.of(TurtleEggBlockEntity::new, Blocks.TURTLE_EGG).build(null));
+
+    // new
+
     public static final RegistryObject<BlockEntityType<FridgeBlockEntity>> FRIDGE = REGISTER.register("fridge",
             () -> BlockEntityType.Builder.of(FridgeBlockEntity::new, ModBlocks.FRIDGE.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<GlisteringMelonBlockEntity>> GLISTERING_MELON =
+            REGISTER.register("glistering_melon", () -> BlockEntityType.Builder
+                    .of(GlisteringMelonBlockEntity::new, ModBlocks.GLISTERING_MELON.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<CactusFruitBlockEntity>> CACTUS_FRUIT =
+            REGISTER.register("cactus_fruit", () -> BlockEntityType.Builder
+                    .of(CactusFruitBlockEntity::new, ModBlocks.CACTUS_FRUIT.get()).build(null));
 }

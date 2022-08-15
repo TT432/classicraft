@@ -9,11 +9,6 @@ import java.util.List;
  */
 public class EmptyRot extends AbstractRot {
     public EmptyRot() {
-        super(new RotHolder(0, 1), false, r -> List.of());
-    }
-
-    @Override
-    public FoodType getType() {
-        return FoodType.NONE;
+        super(new RotHolder(0, 1), false, r -> List.of(), 0);
     }
 }

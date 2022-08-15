@@ -29,7 +29,7 @@ public class MixinItemRenderer {
     private void renderGuiItemDecorationsCC(Font font, ItemStack stack, int x, int y, String text, CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;
 
-        if (!stack.isEmpty() && player != null && stack != player.inventoryMenu.getCarried()) {
+        if (!stack.isEmpty() && player != null && (player.containerMenu == null || stack != player.containerMenu.getCarried())) {
             stack.getCapability(ModCapabilities.ROT).ifPresent(rot -> {
                 if (rot.getHolder().getCurrent() < rot.getHolder().getMax() && rot.getHolder().getMax() > 0) {
                     PoseStack poseStack = new PoseStack();

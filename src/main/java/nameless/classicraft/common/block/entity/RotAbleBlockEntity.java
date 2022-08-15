@@ -1,37 +1,21 @@
 package nameless.classicraft.common.block.entity;
 
 import lombok.Getter;
-import nameless.classicraft.api.TickAble;
+import nameless.classicraft.api.common.block.entity.TickAble;
+import nameless.classicraft.common.rot.RotBlocks;
 import nameless.classicraft.common.rot.RotHolder;
 import nameless.classicraft.common.rot.RotManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Map;
 
 /**
  * @author DustW
  */
 public class RotAbleBlockEntity extends BlockEntity implements TickAble {
-    static final Map<Block, Integer> TICK_MAP = Map.of(
-            Blocks.CAKE, d(1),
-            Blocks.MELON, d(15),
-            Blocks.PUMPKIN, d(30),
-            Blocks.WHEAT, d(7),
-            Blocks.CARROTS, d(7),
-            Blocks.POTATOES, d(30)
-    );
-
-    /** 天（秒） */
-    static int d(int t) {
-        return t * 24000 / 20;
-    }
 
     @Getter
     RotHolder holder;
@@ -39,7 +23,7 @@ public class RotAbleBlockEntity extends BlockEntity implements TickAble {
     public RotAbleBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
         super(pType, pWorldPosition, pBlockState);
 
-        float v = TICK_MAP.get(pBlockState.getBlock());
+        float v = getRotTick(pBlockState);
         holder = new RotHolder(v, v);
     }
 
@@ -75,5 +59,9 @@ public class RotAbleBlockEntity extends BlockEntity implements TickAble {
                 replaceOnRot(getLevel());
             }
         }
+    }
+
+    protected int getRotTick(BlockState state) {
+        return RotBlocks.MAP.getOrDefault(state.getBlock(), 0);
     }
 }

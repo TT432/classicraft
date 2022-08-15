@@ -1,3 +1,10 @@
 {
-  "item.classicraft.rotten_food": "Rotten Food"
+  "block.classicraft.fridge": "Fridge",
+  "block.classicraft.glistering_melon": "Glistering Melon",
+  "block.classicraft.cactus_fruit": "Cactus Fruit",
+
+  "item.classicraft.cactus_fruit": "Cactus Fruit",
+  "item.classicraft.rotten_food": "Rotten Food",
+  "item.classicraft.cooked_egg":"Cooked Egg",
+  "item.classicraft.nether_mushroom_stew": "Nether Mushroom Stew"
 }

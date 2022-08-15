@@ -1,4 +1,4 @@
-package nameless.classicraft.common.block.entity.crop;
+package nameless.classicraft.common.block.entity.attach.crop;
 
 import nameless.classicraft.common.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;

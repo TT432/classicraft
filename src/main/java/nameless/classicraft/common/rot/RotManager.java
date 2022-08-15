@@ -10,7 +10,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -114,6 +116,18 @@ public enum RotManager {
         }
     }
 
+    List<String> bowl = List.of(
+            "minecraft:rabbit_stew",
+            "minecraft:suspicious_stew",
+            "minecraft:mushroom_stew",
+            "minecraft:beetroot_soup",
+            "classicraft:nether_mushroom_stew"
+    );
+
+    List<String> bottle = List.of(
+            "minecraft:honey_bottle"
+    );
+
     public void second() {
         for (int j = 0; j < infos.size(); j++) {
             Info info = infos.get(j);
@@ -141,9 +155,22 @@ public enum RotManager {
                             rot.getHolder().setCurrent(Math.max(0, newValue));
 
                             if (rot.getHolder().getCurrent() <= 0) {
-                                info.action.set(handler, finalI, new ItemStack(ModItems.ROTTEN_FOOD.get(), inSlot.getCount()));
+                                Item remain = ModItems.ROTTEN_FOOD.get();
+
+                                String o = inSlot.getItem().getRegistryName().toString();
+
+                                if (bowl.contains(o)) {
+                                    remain = Items.BOWL;
+                                }
+                                else if (bottle.contains(o)) {
+                                    remain = Items.GLASS_BOTTLE;
+                                }
+
+                                info.action.set(handler, finalI, new ItemStack(remain, inSlot.getCount()));
                             }
                         }
+
+                        rot.setFinalSpeed(finalSpeed);
                     });
                 }
             }
@@ -173,11 +200,14 @@ public enum RotManager {
 
     float dimCoefficient(Level level) {
         if (level == null) {
-            return .5F;
+            return 1;
         }
 
         if (level.dimension() == Level.NETHER) {
-            return 2;
+            return 1.25F;
+        }
+        else if (level.dimension() == Level.END) {
+            return .75F;
         }
 
         return 1;
@@ -189,7 +219,7 @@ public enum RotManager {
         }
 
         if (level.dimension() == Level.END) {
-            return .7F;
+            return .75F;
         }
         else if (level.dimension() == Level.NETHER) {
             return 1.25F;
@@ -198,7 +228,7 @@ public enum RotManager {
         Biome biome = level.getBiome(new BlockPos(pos)).value();
 
         if (biome.getBaseTemperature() < .31) {
-            return .7F;
+            return .75F;
         }
 
         if (biome.getBaseTemperature() > .99) {

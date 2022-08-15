@@ -1,10 +1,9 @@
-package nameless.classicraft.common.block.entity.crop;
+package nameless.classicraft.common.block.entity.attach.crop;
 
 import lombok.Getter;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**

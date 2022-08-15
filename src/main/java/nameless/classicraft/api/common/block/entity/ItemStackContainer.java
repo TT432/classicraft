@@ -1,4 +1,4 @@
-package nameless.classicraft.api;
+package nameless.classicraft.api.common.block.entity;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;

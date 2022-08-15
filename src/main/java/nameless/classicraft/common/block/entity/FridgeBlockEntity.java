@@ -1,7 +1,7 @@
 package nameless.classicraft.common.block.entity;
 
-import nameless.classicraft.api.ItemStackContainer;
-import nameless.classicraft.api.RotReduceListener;
+import nameless.classicraft.api.common.block.entity.ItemStackContainer;
+import nameless.classicraft.api.common.rot.RotReduceListener;
 import nameless.classicraft.common.block.FridgeBlock;
 import nameless.classicraft.common.menu.FridgeMenu;
 import net.minecraft.core.BlockPos;

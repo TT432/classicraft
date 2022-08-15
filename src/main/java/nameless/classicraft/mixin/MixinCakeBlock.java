@@ -1,8 +1,8 @@
 package nameless.classicraft.mixin;
 
-import nameless.classicraft.api.RotBlock;
-import nameless.classicraft.api.TickAble;
-import nameless.classicraft.common.block.entity.CakeBlockEntity;
+import nameless.classicraft.api.common.block.RotBlock;
+import nameless.classicraft.api.common.block.entity.TickAble;
+import nameless.classicraft.common.block.entity.attach.CakeBlockEntity;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

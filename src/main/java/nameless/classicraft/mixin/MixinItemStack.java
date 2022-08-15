@@ -1,7 +1,7 @@
 package nameless.classicraft.mixin;
 
 import com.mojang.datafixers.util.Pair;
-import nameless.classicraft.api.CCItemStack;
+import nameless.classicraft.api.common.item.CCItemStack;
 import nameless.classicraft.common.capability.ModCapabilities;
 import nameless.classicraft.common.item.ModItems;
 import net.minecraft.nbt.CompoundTag;

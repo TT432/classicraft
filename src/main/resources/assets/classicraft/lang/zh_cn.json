@@ -1,3 +1,10 @@
 {
-  "item.classicraft.rotten_food": "腐烂物"
+  "block.classicraft.fridge": "冰箱",
+  "block.classicraft.glistering_melon": "闪烁的金西瓜",
+  "block.classicraft.cactus_fruit": "仙人掌果实",
+
+  "item.classicraft.cactus_fruit": "仙人掌果实",
+  "item.classicraft.rotten_food": "腐烂物",
+  "item.classicraft.cooked_egg": "煎蛋",
+  "item.classicraft.nether_mushroom_stew": "下界蘑菇汤"
 }

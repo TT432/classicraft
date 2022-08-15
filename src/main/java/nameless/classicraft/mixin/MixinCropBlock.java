@@ -1,11 +1,11 @@
 package nameless.classicraft.mixin;
 
-import nameless.classicraft.api.RotBlock;
-import nameless.classicraft.api.TickAble;
+import nameless.classicraft.api.common.block.RotBlock;
+import nameless.classicraft.api.common.block.entity.TickAble;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
-import nameless.classicraft.common.block.entity.crop.CarrotBlockEntity;
-import nameless.classicraft.common.block.entity.crop.PotatoBlockEntity;
-import nameless.classicraft.common.block.entity.crop.WheatBlockEntity;
+import nameless.classicraft.common.block.entity.attach.crop.CarrotBlockEntity;
+import nameless.classicraft.common.block.entity.attach.crop.PotatoBlockEntity;
+import nameless.classicraft.common.block.entity.attach.crop.WheatBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
