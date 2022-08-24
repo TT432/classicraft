@@ -1,6 +1,5 @@
-package nameless.classicraft.common.block.entity.attach.crop;
+package nameless.classicraft.common.block.entity;
 
-import nameless.classicraft.common.block.entity.RotAbleBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -12,8 +11,8 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 /**
  * @author DustW
  */
-public class CropBlockEntity extends RotAbleBlockEntity {
-    public CropBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
+public class RotAbleCropBlockEntity extends RotAbleBlockEntity {
+    public RotAbleCropBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
         super(pType, pWorldPosition, pBlockState);
     }
 
@@ -29,10 +28,6 @@ public class CropBlockEntity extends RotAbleBlockEntity {
     public void tick() {
         if (isMax()) {
             super.tick();
-        }
-        else {
-            if (getHolder().getCurrent() != 0)
-                getHolder().setCurrent(0);
         }
     }
 

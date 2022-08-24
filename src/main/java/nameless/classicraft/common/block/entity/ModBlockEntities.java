@@ -62,4 +62,8 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<CactusFruitBlockEntity>> CACTUS_FRUIT =
             REGISTER.register("cactus_fruit", () -> BlockEntityType.Builder
                     .of(CactusFruitBlockEntity::new, ModBlocks.CACTUS_FRUIT.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<MushroomPlanterBlockEntity>> MUSHROOM_PLANTER =
+            REGISTER.register("mushroom_planter", () -> BlockEntityType.Builder
+                    .of(MushroomPlanterBlockEntity::new, ModBlocks.MUSHROOM_PLANTER.get()).build(null));
 }

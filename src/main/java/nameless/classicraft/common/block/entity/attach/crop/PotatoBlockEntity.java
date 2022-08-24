@@ -2,6 +2,7 @@ package nameless.classicraft.common.block.entity.attach.crop;
 
 import lombok.Getter;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
+import nameless.classicraft.common.block.entity.RotAbleCropBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -9,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * @author DustW
  */
-public class PotatoBlockEntity extends CropBlockEntity {
+public class PotatoBlockEntity extends RotAbleCropBlockEntity {
     @Getter
     boolean poison;
 

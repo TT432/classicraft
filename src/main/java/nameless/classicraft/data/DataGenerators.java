@@ -18,7 +18,7 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         if (event.includeServer()) {
-            //generator.addProvider(new ModRecipes(generator));
+            generator.addProvider(new ModRecipeProvider(generator));
             generator.addProvider(new ModLootTables(generator));
             //generator.addProvider(new TechTreeEntryProvider(generator));
             //ModBlockTagProvider blockTags = new ModBlockTagProvider(generator, event.getExistingFileHelper());
@@ -26,7 +26,7 @@ public class DataGenerators {
             //generator.addProvider(new ModItemTagProvider(generator, blockTags, event.getExistingFileHelper()));
         }
         if (event.includeClient()) {
-            //generator.addProvider(new ModBlockStates(generator, event.getExistingFileHelper()));
+            generator.addProvider(new ModBlockStates(generator, event.getExistingFileHelper()));
             generator.addProvider(new ModItemModels(generator, event.getExistingFileHelper()));
         }
     }

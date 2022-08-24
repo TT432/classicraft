@@ -27,6 +27,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> CACTUS_FRUIT = REGISTER.register("cactus_fruit",
             () -> new CactusFruitBlock(cactus()));
 
+    public static final RegistryObject<Block> MUSHROOM_PLANTER = REGISTER.register("mushroom_planter",
+            () -> new MushroomPlanterBlock(wood().noOcclusion(), ModBlockEntities.MUSHROOM_PLANTER));
+
     static BlockBehaviour.Properties wood() {
         return BlockBehaviour.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD);
     }

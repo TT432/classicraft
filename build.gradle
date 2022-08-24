@@ -20,7 +20,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 group = 'nameless'
-version = '1.18.2-1-12'
+version = '1.18.2-2-0'
 
 java {
     archivesBaseName = 'classicraft'
@@ -156,6 +156,11 @@ jar {
 }
 
 jar.finalizedBy('reobfJar')
+reobf.create('jarJar')
+
+build {
+    dependsOn 'jarJar'
+}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation

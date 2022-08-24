@@ -7,15 +7,17 @@ import nameless.classicraft.common.rot.RotHolder;
 import nameless.classicraft.common.rot.RotManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.List;
 
 /**
  * @author DustW
  */
-public class RotAbleBlockEntity extends BlockEntity implements TickAble {
+public class RotAbleBlockEntity extends BasicBlockEntity implements TickAble {
 
     @Getter
     RotHolder holder;
@@ -35,6 +37,11 @@ public class RotAbleBlockEntity extends BlockEntity implements TickAble {
     }
 
     @Override
+    public List<ItemStack> drops() {
+        return List.of();
+    }
+
+    @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
 
@@ -51,6 +58,8 @@ public class RotAbleBlockEntity extends BlockEntity implements TickAble {
 
     @Override
     public void tick() {
+        super.tick();
+
         if (getLevel() != null && !getLevel().isClientSide && timer++ > 20) {
             timer = 0;
             holder.setCurrent(Math.max(holder.getCurrent() - RotManager.INSTANCE.getFinalSpeed(getLevel(), getBlockPos(), getBlockState()), 0));

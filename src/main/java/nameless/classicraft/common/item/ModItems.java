@@ -35,6 +35,8 @@ public class ModItems {
     public static final RegistryObject<Item> NETHER_MUSHROOM_STEW = normal("nether_mushroom_stew",
             p -> p.food(new FoodProperties.Builder().build()));
 
+    public static final RegistryObject<Item> MUSHROOM_PLANTER = block(ModBlocks.MUSHROOM_PLANTER);
+
     private static RegistryObject<Item> normal(String name) {
         return normal(name, p -> p);
     }
