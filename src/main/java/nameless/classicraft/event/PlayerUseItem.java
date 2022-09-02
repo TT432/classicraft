@@ -73,6 +73,7 @@ public class PlayerUseItem {
                 itemStack.shrink(1);
             }
             player.swing(player.getUsedItemHand());
+            event.setCanceled(true);
         }
     }
 
