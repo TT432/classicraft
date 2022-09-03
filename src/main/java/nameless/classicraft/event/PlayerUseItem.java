@@ -1,12 +1,19 @@
 package nameless.classicraft.event;
 
+import com.mojang.datafixers.util.Pair;
+import nameless.classicraft.common.capability.ModCapabilities;
+import nameless.classicraft.common.item.ModItems;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownEgg;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -14,16 +21,22 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber
 public class PlayerUseItem {
 
     @SubscribeEvent
-    public void onPlayerUseTurtleEgg(PlayerInteractEvent.RightClickItem event) {
+    public static void onPlayerUsingItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getPlayer();
         Level level = player.getLevel();
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
+        if (itemStack.is(Items.EGG) && !player.isShiftKeyDown()) {
+            event.setCanceled(true);
+        }
         if (itemStack.is(Items.TURTLE_EGG) && player.isShiftKeyDown()) {
             float pitch = 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F);
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, pitch);
@@ -75,6 +88,110 @@ public class PlayerUseItem {
             player.swing(player.getUsedItemHand());
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    @SuppressWarnings("deprecation")
+    public static void onPlayerEatingFoods(LivingEntityUseItemEvent.Finish event) {
+        ItemStack itemStack = event.getResultStack();
+        LivingEntity entity = event.getEntityLiving();
+        if (entity instanceof Player player) {
+            if (itemStack.is(Items.GLISTERING_MELON_SLICE)) {
+                player.heal(4.0F);
+            } else if (itemStack.is(ModItems.GLISTERING_MELON.get())) {
+                player.heal(8.0F);
+            }
+        }
+
+        if (itemStack.is(Items.DRIED_KELP) || itemStack.is(Items.CHORUS_FRUIT)) {
+            if (Items.DRIED_KELP.getFoodProperties() != null) {
+                Items.DRIED_KELP.getFoodProperties().nutrition = 0;
+                Items.DRIED_KELP.getFoodProperties().saturationModifier = 0.0F;
+            } else if (Items.CHORUS_FRUIT.getFoodProperties() != null) {
+                Items.CHORUS_FRUIT.getFoodProperties().nutrition = 0;
+                Items.CHORUS_FRUIT.getFoodProperties().saturationModifier = 0.0F;
+            }
+        }
+
+        itemStack.getCapability(ModCapabilities.ROT).ifPresent(rot -> {
+            FoodProperties properties = itemStack.getFoodProperties(entity);
+            if (properties != null) {
+                if (!entity.level.isClientSide) {
+                    for (Pair<MobEffectInstance, Float> pair : properties.getEffects()) {
+                        if (pair.getFirst() != null && entity.level.random.nextFloat() < pair.getSecond()){
+                            entity.addEffect(new MobEffectInstance(pair.getFirst()));
+                        }
+                    }
+
+                    int foodLevelModifier;
+                    float saturationLevelModifier;
+
+                    if (itemStack.getItem() == Items.ROTTEN_FLESH
+                            || itemStack.getItem() == Items.DRIED_KELP
+                            || itemStack.getItem() == ModItems.ROTTEN_FOOD.get()) {
+                        entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60 * 20, 2));
+                        entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60 * 20, 2));
+                        entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60 * 20, 1));
+                        entity.addEffect(new MobEffectInstance(MobEffects.POISON, 60 * 20, 2));
+
+                        foodLevelModifier = 0;
+                        saturationLevelModifier = 0;
+                    } else {
+                        switch (rot.getLevel()) {
+                            case FRESH -> {
+                                foodLevelModifier = properties.getNutrition();
+                                saturationLevelModifier = properties.getSaturationModifier();
+                            }
+                            case STALE -> {
+                                entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 15 * 20));
+                                foodLevelModifier = (int) (properties.getNutrition() * .75);
+                                saturationLevelModifier = properties.getSaturationModifier() * .75F;
+                            }
+                            case SPOILED -> {
+                                entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 30 * 20, 1));
+                                entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 30 * 20));
+                                foodLevelModifier = (int) (properties.getNutrition() * .5);
+                                saturationLevelModifier = properties.getSaturationModifier() * .5F;
+                            }
+                            case ROT -> {
+                                entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 45 * 20, 2));
+                                entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 45 * 20, 1));
+                                entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 45 * 20));
+                                foodLevelModifier = (int) (properties.getNutrition() * .25);
+                                saturationLevelModifier = properties.getSaturationModifier() * .25F;
+                            }
+                            default -> {
+                                foodLevelModifier = 0;
+                                saturationLevelModifier = 0;
+                            }
+                        }
+                    }
+
+                    boolean needShirk = false;
+
+                    if (entity instanceof Player player && foodLevelModifier != 0 && saturationLevelModifier != 0) {
+                        player.getFoodData().eat(foodLevelModifier, saturationLevelModifier);
+
+                        if (!player.getAbilities().instabuild) {
+                            needShirk = true;
+                        }
+                    }
+
+                    if (needShirk) {
+                        itemStack.shrink(1);
+                    }
+                }
+
+                entity.level.playSound(null, entity.getX(), entity.getY(), entity.getZ(),
+                        SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F,
+                        entity.level.random.nextFloat() * 0.1F + 0.9F);
+
+                entity.level.playSound(null, entity.getX(), entity.getY(), entity.getZ(),
+                        entity.getEatingSound(itemStack), SoundSource.NEUTRAL,
+                        1.0F, 1.0F + (entity.level.random.nextFloat()
+                                - entity.level.random.nextFloat()) * 0.4F);
+            }
+        });
     }
 
 }
