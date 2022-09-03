@@ -91,7 +91,6 @@ public class PlayerUseItem {
     }
 
     @SubscribeEvent
-    @SuppressWarnings("deprecation")
     public static void onPlayerEatingFoods(LivingEntityUseItemEvent.Finish event) {
         ItemStack itemStack = event.getResultStack();
         LivingEntity entity = event.getEntityLiving();
@@ -100,16 +99,6 @@ public class PlayerUseItem {
                 player.heal(4.0F);
             } else if (itemStack.is(ModItems.GLISTERING_MELON.get())) {
                 player.heal(8.0F);
-            }
-        }
-
-        if (itemStack.is(Items.DRIED_KELP) || itemStack.is(Items.CHORUS_FRUIT)) {
-            if (Items.DRIED_KELP.getFoodProperties() != null) {
-                Items.DRIED_KELP.getFoodProperties().nutrition = 0;
-                Items.DRIED_KELP.getFoodProperties().saturationModifier = 0.0F;
-            } else if (Items.CHORUS_FRUIT.getFoodProperties() != null) {
-                Items.CHORUS_FRUIT.getFoodProperties().nutrition = 0;
-                Items.CHORUS_FRUIT.getFoodProperties().saturationModifier = 0.0F;
             }
         }
 
