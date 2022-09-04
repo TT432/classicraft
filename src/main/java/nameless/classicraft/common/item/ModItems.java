@@ -18,6 +18,7 @@ import java.util.function.Function;
  * @author DustW
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@SuppressWarnings("unused")
 public class ModItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Classicraft.MOD_ID);
 
@@ -27,15 +28,12 @@ public class ModItems {
     public static final RegistryObject<Item> ROTTEN_FOOD = normal("rotten_food", p -> p.food(new FoodProperties.Builder().build()));
 
     public static final RegistryObject<Item> FRIDGE = block(ModBlocks.FRIDGE);
+    public static final RegistryObject<Item> MUSHROOM_PLANTER = block(ModBlocks.MUSHROOM_PLANTER);
     public static final RegistryObject<Item> GLISTERING_MELON = block(ModBlocks.GLISTERING_MELON);
     public static final RegistryObject<Item> CACTUS_FRUIT = normal("cactus_fruit");
-
-    public static final RegistryObject<Item> COOKED_EGG = normal("cooked_egg",
-            p -> p.food(new FoodProperties.Builder().build()));
-    public static final RegistryObject<Item> NETHER_MUSHROOM_STEW = normal("nether_mushroom_stew",
-            p -> p.food(new FoodProperties.Builder().build()));
-
-    public static final RegistryObject<Item> MUSHROOM_PLANTER = block(ModBlocks.MUSHROOM_PLANTER);
+    public static final RegistryObject<Item> COOKED_EGG = normal("cooked_egg");
+    public static final RegistryObject<Item> NETHER_MUSHROOM_STEW = normal("nether_mushroom_stew");
+    public static final RegistryObject<Item> CLASSIC_CRAFT = REGISTER.register("classic_craft", () -> new Item(new Item.Properties()));
 
     private static RegistryObject<Item> normal(String name) {
         return normal(name, p -> p);
@@ -52,4 +50,5 @@ public class ModItems {
     private static Item.Properties base() {
         return new Item.Properties().tab(Classicraft.TAB);
     }
+
 }
