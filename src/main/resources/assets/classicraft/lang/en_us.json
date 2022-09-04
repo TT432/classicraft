@@ -15,5 +15,7 @@
   "level.classicraft.rotten" : "Rotten ",
 
   "info.classicraft.rot" : "It will rotten after %s day",
-  "info.classicraft.rotting_speed" : "Rotting Speed: %s"
+  "info.classicraft.rotting_speed" : "Rotting Speed: %s",
+
+  "itemGroup.classicraft": "Classic Craft"
 }

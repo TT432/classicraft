@@ -15,5 +15,7 @@
   "level.classicraft.rotten" : "腐坏的",
 
   "info.classicraft.rot" : "%s天后腐烂",
-  "info.classicraft.rotting_speed" : "腐烂速度：%s"
+  "info.classicraft.rotting_speed" : "腐烂速度：%s",
+
+  "itemGroup.classicraft": "天工开物"
 }
