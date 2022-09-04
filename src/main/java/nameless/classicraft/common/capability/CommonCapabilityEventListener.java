@@ -9,6 +9,7 @@ import nameless.classicraft.common.capability.rot.RotCapabilityProvider;
 import nameless.classicraft.common.item.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -27,8 +28,7 @@ public class CommonCapabilityEventListener {
     public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
         if (event.getObject().is(ModItems.ROTTEN_FOOD.get())) {
             attach(event, "rot", new RotCapabilityProvider(LazyOptional.of(EmptyRot::new)));
-        }
-        else if (NormalRot.canUse(event.getObject())) {
+        } else if (NormalRot.canUse(event.getObject())) {
             attach(event, "rot", new RotCapabilityProvider(LazyOptional.of(() -> new NormalRot(event.getObject()))));
         }
     }
@@ -40,7 +40,7 @@ public class CommonCapabilityEventListener {
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
         event.getItemStack().getCapability(ModCapabilities.ROT).ifPresent(rot -> {
-            if (rot.isHasExMsg()) {
+            if (rot.isHasExMsg() && !event.getItemStack().is(Items.ROTTEN_FLESH)) {
                 event.getToolTip().addAll(rot.getMsg());
             }
         });

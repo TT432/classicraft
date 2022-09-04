@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -63,7 +64,7 @@ public abstract class MixinItemStack implements CCItemStack {
     @Inject(method = "getHoverName", at = @At("RETURN"), cancellable = true)
     private void getHoverNameCC(CallbackInfoReturnable<Component> cir) {
         getCapability(ModCapabilities.ROT).ifPresent(rot -> {
-            if (rot.getHolder().getMax() > 0) {
+            if (rot.getHolder().getMax() > 0 && this.getItem() != Items.ROTTEN_FLESH) {
                 Component origin = cir.getReturnValue();
                 cir.setReturnValue(rot.getLevelName().append(origin)
                 .setStyle(Style.EMPTY.withItalic(false)

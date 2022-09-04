@@ -17,10 +17,7 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AttachFoods {
     static final Map<Item, FoodProperties> MAP = ImmutableMap.<Item, FoodProperties>builder()
-            .put(Items.ROTTEN_FLESH, food(0, 0.0)
-                    .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 900, 2), 1)
-                    .effect(() -> new MobEffectInstance(MobEffects.HUNGER, 900, 1), 1)
-                    .effect(() -> new MobEffectInstance(MobEffects.WEAKNESS, 900, 0), 1).build())
+            .put(Items.ROTTEN_FLESH, food(0, 0.0).build())
             .put(ModItems.ROTTEN_FOOD.get(), food(0, 0.0)
                     .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 900, 2), 1)
                     .effect(() -> new MobEffectInstance(MobEffects.HUNGER, 900, 1), 1)
