@@ -34,7 +34,32 @@ public class PlayerUseItem {
         Player player = event.getPlayer();
         Level level = player.getLevel();
         ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
-        if (itemStack.is(Items.EGG) && !player.isShiftKeyDown()) {
+        if (itemStack.is(Items.EGG)) {
+            if (player.isShiftKeyDown()) {
+                float pitch = 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F);
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, pitch);
+                if (!level.isClientSide) {
+                    ThrownEgg thrownEgg = new ThrownEgg(level, player);
+                    thrownEgg.setItem(itemStack);
+                    thrownEgg.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+                    level.addFreshEntity(thrownEgg);
+                }
+
+                player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+
+                player.swing(player.getUsedItemHand());
+                event.setCanceled(true);
+            } else {
+                if (player.getFoodData().needsFood()) {
+                    player.startUsingItem(player.getUsedItemHand());
+                }
+                event.setCanceled(true);
+            }
+        }
+        if (itemStack.is(Items.CAKE)) {
             event.setCanceled(true);
         }
         if (itemStack.is(Items.TURTLE_EGG) && player.isShiftKeyDown()) {
@@ -81,6 +106,7 @@ public class PlayerUseItem {
                 thrownEgg.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
                 level.addFreshEntity(thrownEgg);
             }
+
             player.awardStat(Stats.ITEM_USED.get(itemStack.getItem()));
             if (!player.getAbilities().instabuild) {
                 itemStack.shrink(1);
@@ -99,6 +125,8 @@ public class PlayerUseItem {
                 player.heal(4.0F);
             } else if (itemStack.is(ModItems.GLISTERING_MELON.get())) {
                 player.heal(8.0F);
+            } else if (itemStack.is(Items.GOLDEN_CARROT)) {
+                entity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 80, 0));
             }
         }
 
@@ -114,15 +142,10 @@ public class PlayerUseItem {
 
                     int foodLevelModifier;
                     float saturationLevelModifier;
-
-                    if (itemStack.getItem() == Items.ROTTEN_FLESH
-                            || itemStack.getItem() == Items.DRIED_KELP
-                            || itemStack.getItem() == ModItems.ROTTEN_FOOD.get()) {
-                        entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60 * 20, 2));
-                        entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60 * 20, 2));
-                        entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 60 * 20, 1));
-                        entity.addEffect(new MobEffectInstance(MobEffects.POISON, 60 * 20, 2));
-
+                    if (itemStack.getItem() == Items.ROTTEN_FLESH || itemStack.getItem() == ModItems.ROTTEN_FOOD.get()) {
+                        entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 45 * 20, 2));
+                        entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 45 * 20, 1));
+                        entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 45 * 20, 0));
                         foodLevelModifier = 0;
                         saturationLevelModifier = 0;
                     } else {
@@ -156,18 +179,9 @@ public class PlayerUseItem {
                         }
                     }
 
-                    boolean needShirk = false;
-
                     if (entity instanceof Player player && foodLevelModifier != 0 && saturationLevelModifier != 0) {
+                        player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - properties.getNutrition());
                         player.getFoodData().eat(foodLevelModifier, saturationLevelModifier);
-
-                        if (!player.getAbilities().instabuild) {
-                            needShirk = true;
-                        }
-                    }
-
-                    if (needShirk) {
-                        itemStack.shrink(1);
                     }
                 }
 
