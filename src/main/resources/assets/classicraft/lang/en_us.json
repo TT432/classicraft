@@ -17,5 +17,6 @@
   "info.classicraft.rot" : "It will rotten after %s day",
   "info.classicraft.rotting_speed" : "Rotting Speed: %s",
 
+  "container.classicraft.fridge" : "Fridge",
   "itemGroup.classicraft": "Classic Craft"
 }
