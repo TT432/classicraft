@@ -4,11 +4,15 @@ import nameless.classicraft.common.block.ModBlocks;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
 import nameless.classicraft.common.item.ModItems;
 import nameless.classicraft.common.menu.ModMenuTypes;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,10 +49,18 @@ public class Classicraft {
             Items.ROTTEN_FLESH.getFoodProperties().nutrition = 0;
             Items.ROTTEN_FLESH.getFoodProperties().saturationModifier = 0.0F;
         }
+        bus.addListener(this::renderRegister);
         ModItems.REGISTER.register(bus);
         ModBlocks.REGISTER.register(bus);
         ModMenuTypes.REGISTER.register(bus);
         ModBlockEntities.REGISTER.register(bus);
+    }
+
+    private void renderRegister(FMLClientSetupEvent event) {
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.UNLIT_TORCH.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.UNLIT_SOUL_TORCH.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WALL_UNLIT_TORCH.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.WALL_UNLIT_SOUL_TORCH.get(), RenderType.cutout());
     }
 
 }
