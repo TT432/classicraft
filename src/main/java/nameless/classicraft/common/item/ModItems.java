@@ -24,6 +24,8 @@ public class ModItems {
     public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Classicraft.MOD_ID);
 
     public static final RegistryObject<Item> FRIDGE = block(ModBlocks.FRIDGE);
+    public static final RegistryObject<Item> UNLIT_LANTERN = block(ModBlocks.UNLIT_LANTERN);
+    public static final RegistryObject<Item> UNLIT_SOUL_LANTERN = block(ModBlocks.UNLIT_SOUL_LANTERN);
     public static final RegistryObject<Item> MUSHROOM_PLANTER = block(ModBlocks.MUSHROOM_PLANTER);
     public static final RegistryObject<Item> GLISTERING_MELON = block(ModBlocks.GLISTERING_MELON);
     public static final RegistryObject<Item> NETHER_MUSHROOM_STEW = normal("nether_mushroom_stew");

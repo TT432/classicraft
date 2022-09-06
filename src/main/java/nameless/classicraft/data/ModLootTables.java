@@ -23,8 +23,13 @@ public class ModLootTables extends BaseLootTableProvider {
     @Override
     protected void addTables() {
         simple(ModBlocks.FRIDGE);
+        simple(ModBlocks.UNLIT_TORCH);
+        simple(ModBlocks.UNLIT_LANTERN);
+        simple(ModBlocks.UNLIT_SOUL_TORCH);
+        simple(ModBlocks.UNLIT_SOUL_LANTERN);
+        simple(ModBlocks.WALL_UNLIT_TORCH);
+        simple(ModBlocks.WALL_UNLIT_SOUL_TORCH);
         simple(ModBlocks.GLISTERING_MELON);
-
         LootPool.Builder builder = LootPool.lootPool()
                 .name(ModBlocks.CACTUS_FRUIT.getId().toString())
                 .setRolls(ConstantValue.exactly(1))
