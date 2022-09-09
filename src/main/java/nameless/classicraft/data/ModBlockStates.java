@@ -55,12 +55,12 @@ public class ModBlockStates extends BlockStateProvider {
 
     ConfiguredModel[] mushroomModel(int gs, int d, int w, int m) {
         boolean isRed = m == MushroomPlanterBlock.Mushroom.RED.ordinal();
-        return ConfiguredModel.allYRotations(new ModelFile.ExistingModelFile(new ResourceLocation(Classicraft.MOD_ID,
-                "block/mushroom_planter/" +
-                        "mushroom_planter_" + MushroomPlanterBlock.WOODS[w].name().toLowerCase(Locale.ROOT) +
+        return ConfiguredModel.allYRotations(new ModelFile.ExistingModelFile(
+                new ResourceLocation(Classicraft.MOD_ID,
+                "block/mushroom_planter/" + "mushroom_planter_" +
+                        MushroomPlanterBlock.WOODS[w].name().toLowerCase(Locale.ROOT) +
                         "_" + MushroomPlanterBlock.DIRTS[d].name().toLowerCase(Locale.ROOT) +
-                        "_" + (isRed ? "red_mushroom" : "brown_mushroom") +
-                        "_" + gs
+                        "_" + (isRed ? "red_mushroom" : "brown_mushroom") + "_" + gs
         ), ex), 0, false);
     }
 
@@ -70,11 +70,11 @@ public class ModBlockStates extends BlockStateProvider {
         String name = block.getId().getPath();
         ResourceLocation texture = blockTexture(block.get());
         BlockModelBuilder model = models().cubeBottomTop(name, texture, TOP, TOP);
-
         getVariantBuilder(block.get()).partialState().setModels(new ConfiguredModel(model));
     }
 
     ResourceLocation withSuffix(ResourceLocation rl, String suffix) {
         return new ResourceLocation(rl.getNamespace(), rl.getPath() + suffix);
     }
+
 }

@@ -32,6 +32,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,10 +41,13 @@ import java.util.function.Supplier;
 /**
  * @author DustW
  */
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlockEntity> {
+
     public static final IntegerProperty GROW_STATE = IntegerProperty.create("grow_state", 0, 3);
     public static final IntegerProperty DIRT = IntegerProperty.create("dirt", 0, 1);
-    public static final IntegerProperty WOOD = IntegerProperty.create("wood", 0, 5);
+    public static final IntegerProperty WOOD = IntegerProperty.create("wood", 0, 7);
     public static final IntegerProperty MUSHROOM = IntegerProperty.create("mushroom", 0, 1);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
@@ -98,16 +102,13 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
         Direction value = pState.getValue(FACING);
         List<BlockPos> posList = new ArrayList<>();
-
         posList.add(pPos.relative(value));
         posList.add(pPos.relative(value).relative(value));
         posList.add(pPos.relative(value.getOpposite()));
         posList.add(pPos.relative(value.getOpposite()).relative(value.getOpposite()));
-
         for(BlockPos pos : posList) {
             BlockState blockstate = pLevel.getBlockState(pos);
             Material material = blockstate.getMaterial();
-
             if (material.isSolid() || pLevel.getFluidState(pos).is(FluidTags.LAVA)) {
                 return false;
             }
@@ -129,14 +130,11 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide) {
             ItemStack held = pPlayer.getItemInHand(pHand);
-
             if (held.getItem() instanceof BlockItem bi) {
                 Block block = bi.getBlock();
-
                 if (!hasMushroom(pState)) {
                     if (WOOD_BLOCKS.containsKey(block)) {
                         int ordinal = WOOD_BLOCKS.get(block).ordinal();
-
                         if (ordinal != pState.getValue(WOOD)) {
                             pLevel.setBlock(pPos, pState.setValue(WOOD, ordinal), Block.UPDATE_NONE);
                             if (!pPlayer.isCreative()) {
@@ -146,7 +144,6 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
                         }
                     } else if (DIRT_BLOCKS.containsKey(block)) {
                         int ordinal = DIRT_BLOCKS.get(block).ordinal();
-
                         if (ordinal != pState.getValue(DIRT)) {
                             pLevel.setBlock(pPos, pState.setValue(DIRT, ordinal), Block.UPDATE_NONE);
 
@@ -156,10 +153,8 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
 
                             return InteractionResult.SUCCESS;
                         }
-                    }
-                    else if (MUSHROOM_BLOCKS.containsKey(block)) {
+                    } else if (MUSHROOM_BLOCKS.containsKey(block)) {
                         BlockState newState = pState.setValue(MUSHROOM, MUSHROOM_BLOCKS.get(block).ordinal());
-
                         if (pLevel.getBlockEntity(pPos) instanceof MushroomPlanterBlockEntity mpb) {
                             mpb.refresh(newState);
                             if (!pPlayer.isCreative()) {
@@ -169,8 +164,7 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
                         }
                     }
                 }
-            }
-            else if (held.isEmpty() && pState.getValue(GROW_STATE) >= 3) {
+            } else if (held.isEmpty() && pState.getValue(GROW_STATE) >= 3) {
                 if (pLevel.getBlockEntity(pPos) instanceof MushroomPlanterBlockEntity mpb) {
                     mpb.replaceOnRot(pLevel);
                 }
@@ -197,14 +191,13 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
             Item mushroomItem = MUSHROOM_BLOCKS.inverse().get(MUSHROOMS[pState.getValue(MUSHROOM)]).asItem();
             ItemStack mushroom = new ItemStack(mushroomItem, (pState.getValue(GROW_STATE) - 1) * 2);
             return List.of(wood, dirt, mushroom);
-        } else
+        } else {
             return List.of(wood, dirt);
+        }
     }
 
     public static final BiMap<Block, Dirt> DIRT_BLOCKS = HashBiMap.create(ImmutableMap.<Block, Dirt>builder()
-            .put(Blocks.PODZOL, Dirt.PODZOL)
-            .put(Blocks.MYCELIUM, Dirt.MYCELIUM)
-            .build());
+            .put(Blocks.PODZOL, Dirt.PODZOL).put(Blocks.MYCELIUM, Dirt.MYCELIUM).build());
 
     public enum Dirt {
         //灰化土 minecraft:
@@ -222,6 +215,8 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
             .put(Blocks.JUNGLE_LOG, Wood.JUNGLE_LOG)
             .put(Blocks.ACACIA_LOG, Wood.ACACIA_LOG)
             .put(Blocks.DARK_OAK_LOG, Wood.DARK_OAK_LOG)
+            .put(Blocks.CRIMSON_HYPHAE, Wood.CRIMSON_HYPHAE)
+            .put(Blocks.WARPED_HYPHAE, Wood.WARPED_HYPHAE)
             .build());
 
     public enum Wood {
@@ -236,15 +231,17 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
         //金合欢原木
         ACACIA_LOG,
         //深色橡木原木
-        DARK_OAK_LOG;
+        DARK_OAK_LOG,
+        //绯红菌柄
+        CRIMSON_HYPHAE,
+        //诡异菌柄
+        WARPED_HYPHAE
     }
 
     public static final Wood[] WOODS = Wood.values();
 
     public static final BiMap<Block, Mushroom> MUSHROOM_BLOCKS = HashBiMap.create(ImmutableMap.<Block, Mushroom>builder()
-            .put(Blocks.RED_MUSHROOM, Mushroom.RED)
-            .put(Blocks.BROWN_MUSHROOM, Mushroom.BROWN)
-            .build());
+            .put(Blocks.RED_MUSHROOM, Mushroom.RED).put(Blocks.BROWN_MUSHROOM, Mushroom.BROWN).build());
 
     public enum Mushroom {
         RED,
@@ -257,10 +254,8 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
     public void fillItemCategory(CreativeModeTab pTab, NonNullList<ItemStack> pItems) {
             for (MushroomPlanterBlock.Wood wood : MushroomPlanterBlock.WOODS) {
                 ItemStack result = new ItemStack(this);
-
                 result.getOrCreateTag().putInt("dirt", Dirt.PODZOL.ordinal());
                 result.getOrCreateTag().putInt("wood", wood.ordinal());
-
                 pItems.add(result);
             }
     }
@@ -274,4 +269,5 @@ public class MushroomPlanterBlock extends AbstractEntityBlock<MushroomPlanterBlo
     public BlockState mirror(BlockState pState, Mirror pMirror) {
         return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
     }
+
 }

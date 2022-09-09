@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
@@ -22,6 +23,8 @@ import java.util.function.Supplier;
 /**
  * @author DustW
  **/
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class AbstractEntityBlock<T extends BasicBlockEntity> extends BaseEntityBlock {
     Supplier<BlockEntityType<T>> supplier;
 
