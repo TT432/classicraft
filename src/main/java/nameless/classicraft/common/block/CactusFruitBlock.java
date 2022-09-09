@@ -22,11 +22,17 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * @author DustW
  */
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class CactusFruitBlock extends CactusBlock implements RotAbleEntityBlock {
+
     public CactusFruitBlock(Properties properties) {
         super(properties);
     }
@@ -36,10 +42,10 @@ public class CactusFruitBlock extends CactusBlock implements RotAbleEntityBlock 
         return ModBlockEntities.CACTUS_FRUIT.get();
     }
 
+    @NotNull
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         pLevel.playSound(null, pPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + pLevel.random.nextFloat() * 0.4F);
-
         if (!pLevel.isClientSide) {
             pLevel.setBlock(pPos, Blocks.CACTUS.defaultBlockState(), Block.UPDATE_ALL_IMMEDIATE);
             Containers.dropItemStack(pLevel, pPos.getX(), pPos.getY(), pPos.getZ(), new ItemStack(ModItems.CACTUS_FRUIT.get()));

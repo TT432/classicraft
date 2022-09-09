@@ -7,7 +7,7 @@ import nameless.classicraft.common.rot.RotHolder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -19,6 +19,7 @@ import java.util.function.Function;
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractRot {
+
     private final RotHolder holder;
     private boolean hasExMsg;
     private Function<AbstractRot, List<Component>> exMsg;
@@ -37,10 +38,10 @@ public abstract class AbstractRot {
 
     public MutableComponent getLevelName() {
         return switch (getLevel()) {
-            case FRESH ->   new TextComponent("新鲜");
-            case STALE ->   new TextComponent("陈旧");
-            case SPOILED -> new TextComponent("变质");
-            case ROT ->     new TextComponent("腐坏");
+            case FRESH ->   new TranslatableComponent("level.classicraft.fresh");
+            case STALE ->   new TranslatableComponent("level.classicraft.stale");
+            case SPOILED -> new TranslatableComponent("level.classicraft.spoiled");
+            case ROT ->     new TranslatableComponent("level.classicraft.rotten");
         };
     }
 
@@ -60,4 +61,5 @@ public abstract class AbstractRot {
     public void setRotValue(float v) {
         holder.setCurrent(v);
     }
+
 }

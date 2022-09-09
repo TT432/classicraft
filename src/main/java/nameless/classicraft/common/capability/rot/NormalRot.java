@@ -2,7 +2,7 @@ package nameless.classicraft.common.capability.rot;
 
 import nameless.classicraft.common.rot.RotHolder;
 import nameless.classicraft.common.rot.RotItems;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -25,8 +25,8 @@ public class NormalRot extends AbstractRot {
 
     public NormalRot(ItemStack food) {
         super(new RotHolder(getSecond(food.getItem()), getSecond(food.getItem())), true, rot ->
-                List.of(new TextComponent("%.2f天后腐烂".formatted(rot.getHolder().getCurrent() / 24000)),
-                        new TextComponent("速度%d%%".formatted((int) (rot.getFinalSpeed() * 100)))), 1);
+                List.of(new TranslatableComponent("info.classicraft.rot", String.format("%.2f", rot.getHolder().getCurrent() / 24000)),
+                        new TranslatableComponent("info.classicraft.rotting_speed", (int) (rot.getFinalSpeed() * 100) + "%")), 1);
 
         this.food = food;
     }
@@ -40,4 +40,5 @@ public class NormalRot extends AbstractRot {
     public int hashCode() {
         return food.hashCode();
     }
+
 }

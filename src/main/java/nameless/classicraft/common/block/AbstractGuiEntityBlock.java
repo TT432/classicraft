@@ -25,6 +25,7 @@ public class AbstractGuiEntityBlock<T extends BasicBlockEntity> extends Abstract
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (pLevel.isClientSide) {
             return InteractionResult.SUCCESS;

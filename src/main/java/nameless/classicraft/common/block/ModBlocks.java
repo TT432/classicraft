@@ -22,13 +22,24 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> FRIDGE = REGISTER.register("fridge",
             () -> new FridgeBlock(wood(), ModBlockEntities.FRIDGE));
-    public static final RegistryObject<Block> GLISTERING_MELON = REGISTER.register("glistering_melon",
-            () -> new GlisteringMelonBlock(melon()));
-    public static final RegistryObject<Block> CACTUS_FRUIT = REGISTER.register("cactus_fruit",
-            () -> new CactusFruitBlock(cactus()));
-
     public static final RegistryObject<Block> MUSHROOM_PLANTER = REGISTER.register("mushroom_planter",
             () -> new MushroomPlanterBlock(wood().noOcclusion(), ModBlockEntities.MUSHROOM_PLANTER));
+    public static final RegistryObject<Block> UNLIT_LANTERN = REGISTER.register("unlit_lantern", () -> new UnlitLanternBlock(lantern()));
+    public static final RegistryObject<Block> UNLIT_SOUL_LANTERN = REGISTER.register("unlit_soul_lantern", () -> new UnlitLanternBlock(lantern()));
+    public static final RegistryObject<Block> GLISTERING_MELON = REGISTER.register("glistering_melon", () -> new GlisteringMelonBlock(melon()));
+    public static final RegistryObject<Block> CACTUS_FRUIT = REGISTER.register("cactus_fruit", () -> new CactusFruitBlock(cactus()));
+    public static final RegistryObject<Block> UNLIT_TORCH = REGISTER.register("unlit_torch", () -> new UnlitTorchBlock(torch()));
+    public static final RegistryObject<Block> WALL_UNLIT_TORCH = REGISTER.register("wall_unlit_torch", () -> new WallUnlitTorchBlock(torch()));
+    public static final RegistryObject<Block> UNLIT_SOUL_TORCH = REGISTER.register("unlit_soul_torch", () -> new UnlitTorchBlock(torch()));
+    public static final RegistryObject<Block> WALL_UNLIT_SOUL_TORCH = REGISTER.register("wall_unlit_soul_torch", () -> new WallUnlitTorchBlock(torch()));
+
+    static BlockBehaviour.Properties lantern() {
+        return BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN);
+    }
+
+    static BlockBehaviour.Properties torch() {
+        return BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().sound(SoundType.WOOD);
+    }
 
     static BlockBehaviour.Properties wood() {
         return BlockBehaviour.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD);
@@ -41,4 +52,5 @@ public class ModBlocks {
     static BlockBehaviour.Properties cactus() {
         return BlockBehaviour.Properties.of(Material.CACTUS).randomTicks().strength(0.4F).noOcclusion().sound(SoundType.WOOL);
     }
+
 }

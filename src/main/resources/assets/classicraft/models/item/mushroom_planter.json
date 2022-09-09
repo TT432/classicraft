@@ -1,89 +1,120 @@
 {
-  "parent": "classicraft:block/mushroom_planter/mushroom_planter_oak_log_podzol_brown_mushroom_0",
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "classicraft:item/cc_oak_wood"
+  },
   "overrides": [
     {
       "predicate": {
         "wood": 0,
         "dirt": 0
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_oak_log_podzol_brown_mushroom_0"
+      "model": "classicraft:item/cc_oak_wood"
     },
     {
       "predicate": {
         "wood": 1,
         "dirt": 0
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_spruce_log_podzol_brown_mushroom_0"
+      "model": "classicraft:item/cc_spruce_wood"
     },
     {
       "predicate": {
         "wood": 2,
         "dirt": 0
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_birch_log_podzol_brown_mushroom_0"
+      "model": "classicraft:item/cc_birch_wood"
     },
     {
       "predicate": {
         "wood": 3,
         "dirt": 0
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_jungle_log_podzol_brown_mushroom_0"
+      "model": "classicraft:item/cc_jungle_wood"
     },
     {
       "predicate": {
         "wood": 4,
         "dirt": 0
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_acacia_log_podzol_brown_mushroom_0"
+      "model": "classicraft:item/cc_acacia_wood"
     },
     {
       "predicate": {
         "wood": 5,
         "dirt": 0
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_oak_log_mycelium_brown_mushroom_0"
+      "model": "classicraft:item/cc_oak_wood"
+    },
+    {
+      "predicate": {
+        "wood": 6,
+        "dirt": 0
+      },
+      "model": "classicraft:item/cc_crimson_hyphae"
+    },
+    {
+      "predicate": {
+        "wood": 7,
+        "dirt": 0
+      },
+      "model": "classicraft:item/cc_warped_hyphae"
     },
     {
       "predicate": {
         "wood": 0,
         "dirt": 1
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_oak_log_mycelium_brown_mushroom_0"
+      "model": "classicraft:item/cc_oak_wood"
     },
     {
       "predicate": {
         "wood": 1,
         "dirt": 1
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_spruce_log_mycelium_brown_mushroom_0"
+      "model": "classicraft:item/cc_spruce_wood"
     },
     {
       "predicate": {
         "wood": 2,
         "dirt": 1
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_birch_log_mycelium_brown_mushroom_0"
+      "model": "classicraft:item/cc_birch_wood"
     },
     {
       "predicate": {
         "wood": 3,
         "dirt": 1
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_jungle_log_mycelium_brown_mushroom_0"
+      "model": "classicraft:item/cc_jungle_wood"
     },
     {
       "predicate": {
         "wood": 4,
         "dirt": 1
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_acacia_log_mycelium_brown_mushroom_0"
+      "model": "classicraft:item/cc_acacia_wood"
     },
     {
       "predicate": {
         "wood": 5,
         "dirt": 1
       },
-      "model": "classicraft:block/mushroom_planter/mushroom_planter_dark_oak_log_mycelium_brown_mushroom_0"
+      "model": "classicraft:item/cc_dark_oak_wood"
+    },
+    {
+      "predicate": {
+        "wood": 6,
+        "dirt": 1
+      },
+      "model": "classicraft:item/cc_crimson_hyphae"
+    },
+    {
+      "predicate": {
+        "wood": 7,
+        "dirt": 1
+      },
+      "model": "classicraft:item/cc_warped_hyphae"
     }
   ]
 }
