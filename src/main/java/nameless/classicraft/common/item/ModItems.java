@@ -4,8 +4,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import nameless.classicraft.Classicraft;
 import nameless.classicraft.common.block.ModBlocks;
+import nameless.classicraft.common.block.UnlitCandleholderBlock;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.level.block.Block;
@@ -13,6 +15,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Function;
 
 /**
@@ -38,6 +42,17 @@ public class ModItems {
             ModBlocks.UNLIT_TORCH.get(), ModBlocks.WALL_UNLIT_TORCH.get(), base()));
     public static final RegistryObject<Item> UNLIT_SOUL_TORCH = REGISTER.register("unlit_soul_torch", () -> new StandingAndWallBlockItem(
             ModBlocks.UNLIT_SOUL_TORCH.get(), ModBlocks.WALL_UNLIT_SOUL_TORCH.get(), base()));
+
+    // 批量添加不同材料和颜色的烛台物品
+    public static final ArrayList<RegistryObject<Item>> UNLIT_CANDLEHOLDERS = new ArrayList<RegistryObject<Item>>(){{
+        for (RegistryObject<Block> UNLIT_CANDLEHOLDER: ModBlocks.UNLIT_CANDLEHOLDERS)
+                add(block(UNLIT_CANDLEHOLDER));
+    }};
+
+    public static final ArrayList<RegistryObject<Item>> UNLIT_LARGE_CANDLEHOLDERS = new ArrayList<RegistryObject<Item>>(){{
+        for (RegistryObject<Block> UNLIT_LARGE_CANDLEHOLDER: ModBlocks.UNLIT_LARGE_CANDLEHOLDERS)
+            add(block(UNLIT_LARGE_CANDLEHOLDER));
+    }};
 
     private static RegistryObject<Item> normal(String name) {
         return normal(name, p -> p);

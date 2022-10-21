@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import nameless.classicraft.Classicraft;
 import nameless.classicraft.common.block.entity.ModBlockEntities;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -12,6 +13,10 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author DustW
@@ -33,11 +38,28 @@ public class ModBlocks {
     public static final RegistryObject<Block> UNLIT_SOUL_TORCH = REGISTER.register("unlit_soul_torch", () -> new UnlitTorchBlock(torch()));
     public static final RegistryObject<Block> WALL_UNLIT_SOUL_TORCH = REGISTER.register("wall_unlit_soul_torch", () -> new WallUnlitTorchBlock(torch()));
 
+    // 批量添加不同材料和颜色的烛台方块
+    public static final ArrayList<RegistryObject<Block>> UNLIT_CANDLEHOLDERS = new ArrayList<RegistryObject<Block>>(){{
+        for (String material : Arrays.asList("golden_","","copper_"))//铁制烛台的命名空间不带有iron
+            for (DyeColor dyeColor: DyeColor.values())
+                add(REGISTER.register("unlit_" + material + dyeColor.getName() + "_candleholder", () -> new UnlitCandleholderBlock(candleholder())));
+    }};
+
+    public static final ArrayList<RegistryObject<Block>> UNLIT_LARGE_CANDLEHOLDERS = new ArrayList<RegistryObject<Block>>(){{
+        for (String material : Arrays.asList("golden_","","copper_"))
+            for (DyeColor dyeColor: DyeColor.values())
+                add(REGISTER.register("unlit_large_" + material + dyeColor.getName() + "_candleholder", () -> new UnlitCandleholderBlock(candleholder())));
+    }};
+
     static BlockBehaviour.Properties lantern() {
         return BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN);
     }
 
     static BlockBehaviour.Properties torch() {
+        return BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().sound(SoundType.WOOD);
+    }
+
+    static BlockBehaviour.Properties candleholder() {
         return BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().sound(SoundType.WOOD);
     }
 
