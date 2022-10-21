@@ -54,6 +54,11 @@ public class ModItems {
             add(block(UNLIT_LARGE_CANDLEHOLDER));
     }};
 
+    public static final RegistryObject<Item> UNLIT_FIRE_BOW = block(ModBlocks.UNLIT_FIRE_BOW);
+    public static final RegistryObject<Item> UNLIT_SOUL_FIRE_BOW = block(ModBlocks.UNLIT_SOUL_FIRE_BOW);
+    public static final RegistryObject<Item> UNLIT_LARGE_FIRE_BOW = block(ModBlocks.UNLIT_LARGE_FIRE_BOW);
+    public static final RegistryObject<Item> UNLIT_LARGE_SOUL_FIRE_BOW = block(ModBlocks.UNLIT_LARGE_SOUL_FIRE_BOW);
+
     private static RegistryObject<Item> normal(String name) {
         return normal(name, p -> p);
     }

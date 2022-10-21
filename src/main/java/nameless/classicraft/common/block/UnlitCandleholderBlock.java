@@ -16,7 +16,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class UnlitCandleholderBlock extends Block {
-    protected static final VoxelShape voxelShape = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
+    protected static final VoxelShape voxelShape = Block.box(7.0D, 0.0D, 7.0D, 9.0D, 9.0D, 9.0D);
     public UnlitCandleholderBlock(Properties properties) {
         super(properties);
     }

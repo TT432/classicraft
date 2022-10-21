@@ -48,9 +48,13 @@ public class ModBlocks {
     public static final ArrayList<RegistryObject<Block>> UNLIT_LARGE_CANDLEHOLDERS = new ArrayList<RegistryObject<Block>>(){{
         for (String material : Arrays.asList("golden_","","copper_"))
             for (DyeColor dyeColor: DyeColor.values())
-                add(REGISTER.register("unlit_large_" + material + dyeColor.getName() + "_candleholder", () -> new UnlitCandleholderBlock(candleholder())));
+                add(REGISTER.register("unlit_large_" + material + dyeColor.getName() + "_candleholder", () -> new UnlitLargeCandleholderBlock(largeCandleholder())));
     }};
 
+    public static final RegistryObject<Block> UNLIT_FIRE_BOW = REGISTER.register("unlit_fire_bowl", () -> new UnlitFireBowlBlock(fireBowl()));
+    public static final RegistryObject<Block> UNLIT_SOUL_FIRE_BOW = REGISTER.register("unlit_soul_fire_bowl", () -> new UnlitFireBowlBlock(fireBowl()));
+    public static final RegistryObject<Block> UNLIT_LARGE_FIRE_BOW = REGISTER.register("unlit_large_fire_bowl", () -> new UnlitFireBowlBlock(fireBowl()));
+    public static final RegistryObject<Block> UNLIT_LARGE_SOUL_FIRE_BOW = REGISTER.register("unlit_large_soul_fire_bowl", () -> new UnlitLargeFireBowlBlock(fireBowl()));
     static BlockBehaviour.Properties lantern() {
         return BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN);
     }
@@ -60,7 +64,19 @@ public class ModBlocks {
     }
 
     static BlockBehaviour.Properties candleholder() {
-        return BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().sound(SoundType.WOOD);
+        return BlockBehaviour.Properties.of(Material.DECORATION).instabreak().sound(SoundType.WOOD);
+    }
+
+    static BlockBehaviour.Properties largeCandleholder() {
+        return BlockBehaviour.Properties.of(Material.DECORATION).instabreak().sound(SoundType.WOOD);
+    }
+
+    static BlockBehaviour.Properties fireBowl() {
+        return BlockBehaviour.Properties.of(Material.DECORATION).instabreak().sound(SoundType.WOOD);
+    }
+
+    static BlockBehaviour.Properties largeFireBow() {
+        return BlockBehaviour.Properties.of(Material.DECORATION).instabreak().sound(SoundType.WOOD);
     }
 
     static BlockBehaviour.Properties wood() {

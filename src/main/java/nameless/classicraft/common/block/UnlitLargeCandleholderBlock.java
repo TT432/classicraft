@@ -12,6 +12,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class UnlitLargeCandleholderBlock extends Block{
+    //TODO: 完善碰撞箱
     protected static final VoxelShape voxelShape = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
     public UnlitLargeCandleholderBlock(Properties properties) {
         super(properties);

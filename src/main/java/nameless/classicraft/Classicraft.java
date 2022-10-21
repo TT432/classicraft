@@ -69,6 +69,10 @@ public class Classicraft {
             ItemBlockRenderTypes.setRenderLayer(UNLIT_CANDLEHOLDER.get(), RenderType.cutout());
         for (RegistryObject<Block> UNLIT_LARGE_CANDLEHOLDER : ModBlocks.UNLIT_LARGE_CANDLEHOLDERS)
             ItemBlockRenderTypes.setRenderLayer(UNLIT_LARGE_CANDLEHOLDER.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.UNLIT_FIRE_BOW.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.UNLIT_SOUL_FIRE_BOW.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.UNLIT_LARGE_FIRE_BOW.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.UNLIT_LARGE_SOUL_FIRE_BOW.get(), RenderType.cutout());
     }
 
 }
