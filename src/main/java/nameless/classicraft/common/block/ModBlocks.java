@@ -16,7 +16,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author DustW
@@ -41,7 +40,7 @@ public class ModBlocks {
     // 批量添加不同材料和颜色的烛台方块
     public static final ArrayList<RegistryObject<Block>> UNLIT_CANDLEHOLDERS = new ArrayList<RegistryObject<Block>>(){{
         for (String material : Arrays.asList("golden_","","copper_"))//铁制烛台的命名空间不带有iron
-            for (DyeColor dyeColor: DyeColor.values())
+           for (DyeColor dyeColor: DyeColor.values())
                 add(REGISTER.register("unlit_" + material + dyeColor.getName() + "_candleholder", () -> new UnlitCandleholderBlock(candleholder())));
     }};
 
@@ -52,7 +51,9 @@ public class ModBlocks {
     }};
 
     public static final RegistryObject<Block> UNLIT_FIRE_BOW = REGISTER.register("unlit_fire_bowl", () -> new UnlitFireBowlBlock(fireBowl()));
-    public static final RegistryObject<Block> UNLIT_SOUL_FIRE_BOW = REGISTER.register("unlit_soul_fire_bowl", () -> new UnlitFireBowlBlock(fireBowl()));
+
+
+    RegistryObject<UnlitFireBowlBlock> UNLIT_SOUL_FIRE_BOW = REGISTER.register("unlit_soul_fire_bowl", () -> new UnlitFireBowlBlock(fireBowl()));
     public static final RegistryObject<Block> UNLIT_LARGE_FIRE_BOW = REGISTER.register("unlit_large_fire_bowl", () -> new UnlitFireBowlBlock(fireBowl()));
     public static final RegistryObject<Block> UNLIT_LARGE_SOUL_FIRE_BOW = REGISTER.register("unlit_large_soul_fire_bowl", () -> new UnlitLargeFireBowlBlock(fireBowl()));
     static BlockBehaviour.Properties lantern() {

@@ -21,6 +21,7 @@ public class UnlitCandleholderBlock extends Block {
         super(properties);
     }
 
+
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return voxelShape;
     }
